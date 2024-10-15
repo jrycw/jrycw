@@ -4,29 +4,31 @@ import asyncio
 import random
 from itertools import count
 
+cnt = count()
+whoami = ["Simulation Engineer", "Python Developer", "Rust Enthusiast"]
 
-async def describe(description: str) -> str:
+
+async def describe(sth: str) -> str:
     await asyncio.sleep(random.random() / 10)
-    print(description)
-    return description
+    print(sth)
+    return sth
+
+
+async def _main():
+    print(f"Cycle {next(cnt)}: ")
+    descriptions = [describe(me) for me in whoami]
+    tasks = [asyncio.create_task(description) for description in descriptions]
+    await asyncio.gather(*tasks)
+    print()
 
 
 async def main() -> None:
-    descriptions = [
-        describe("Simulation Engineer"),
-        describe("Python Developer"),
-        describe("Rust Enthusiast"),
-    ]
-    tasks = [asyncio.create_task(description) for description in descriptions]
-    await asyncio.gather(*tasks)
+    while True:
+        await _main()
 
 
 if __name__ == "__main__":
-    cnt = count()
-    while True:
-        print(f"Cycle {next(cnt)}: ")
-        asyncio.run(main())
-        print()
+    asyncio.run(main())
 ```
 ```
 Cycle 0:

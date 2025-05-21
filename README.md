@@ -14,7 +14,7 @@ async def describe(sth: str) -> str:
     return sth
 
 
-async def _main():
+async def _main() -> None:
     print(f"Cycle {next(cnt)}: ")
     descriptions = [describe(me) for me in whoami]
     tasks = [asyncio.create_task(description) for description in descriptions]
